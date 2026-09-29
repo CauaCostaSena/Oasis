@@ -1,0 +1,43 @@
+# Backend (Java/Maven)
+backend/target/
+backend/uploads/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/settings.json
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+.claude/
+
+# Configuração local e segredos (exemplos sem credenciais podem ser versionados)
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Caches, arquivos temporários e ferramentas locais
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+.pytest_cache/
+.cache/
+*.tmp
+*.bak
+
+# Artefatos históricos não pertencem à árvore ativa do Oásis
+/atividade80%_anderson.zip
+/Capture-and-Keep-Good-Devs---CKGD-main.zip
