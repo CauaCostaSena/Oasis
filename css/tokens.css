@@ -1,12 +1,12 @@
-/* Oásis — valores compartilhados pela experiência pública e pela aplicação. */
+/* Oásis — tokens compartilhados entre a experiência pública e a aplicação. */
 :root {
- --oasis-dark:#080d16; --oasis-dark-surface:#101927; --oasis-white:#f8fafc;
+ --oasis-dark:#080b10; --oasis-dark-surface:#11161d; --oasis-white:#f8fafc; --oasis-light:#f3f6fa;
  --oasis-blue:#326bff; --oasis-cyan:#38d6ff; --oasis-violet:#6757ff;
- --bg:#f3f6fb; --bg-panel:#fff; --card:#fff; --text:#18253c; --muted:#64738a;
+ --bg:#f5f7fa; --bg-panel:#fff; --card:#fff; --text:#111827; --muted:#6b7280;
  --muted-strong:#44556e; --accent:#326bff; --accent-dark:#2454cd; --accent-light:#326bff;
  --accent-soft:#edf2ff; --accent-soft-strong:#e3ebff; --card-border:#e3e9f2;
  --card-shadow:0 4px 20px rgba(30,52,86,.035); --danger:#b42336;
  --radius-lg:22px; --radius-md:16px; --radius-sm:10px; --sidebar-width:252px;
- --font:Inter,"Segoe UI",Arial,sans-serif; --ease:cubic-bezier(.22,1,.36,1);
+ --font:"DM Sans",Inter,"Segoe UI",Arial,sans-serif; --ease:cubic-bezier(.22,1,.36,1);
 }
-.dark-theme { color-scheme:dark; --bg:#080d16; --bg-panel:#101927; --card:#101927; --text:#f8fafc; --muted:#9eafc8; --muted-strong:#c1cde0; --card-border:#243046; --accent-light:#8caaff; --accent-soft:rgba(50,107,255,.13); --accent-soft-strong:rgba(50,107,255,.2); --card-shadow:0 24px 80px rgba(0,0,0,.18); --danger:#ff9da8; }
+.dark-theme { color-scheme:dark; --bg:#080b10; --bg-panel:#11161d; --card:#11161d; --text:#f8fafc; --muted:#9eafc8; --muted-strong:#c1cde0; --card-border:#243046; --accent-light:#8caaff; --accent-soft:rgba(50,107,255,.13); --accent-soft-strong:rgba(50,107,255,.2); --card-shadow:0 24px 80px rgba(0,0,0,.18); --danger:#ff9da8; }

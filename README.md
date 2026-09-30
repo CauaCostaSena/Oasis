@@ -1,115 +1,224 @@
 # Oásis
 
-Plataforma B2B de recrutamento técnico baseada em informações públicas do GitHub. Organiza candidatos para apoiar decisões humanas; não é rede social nem ranking automático.
+O **Oásis** é uma plataforma web B2B de recrutamento técnico baseada em informações públicas do GitHub. O sistema organiza candidatos para apoiar decisões humanas; não é rede social e não cria ranking automático de pessoas.
 
-**Somente empresas possuem conta.** Candidatos não se cadastram, não têm senha e não editam dados. Todo cadastro empresarial recebe plano gratuito escolhido no backend. Favoritos e avaliações são independentes. Avaliações pertencem exclusivamente à empresa e aceitam nota inteira opcional de **1 a 5**, confirmada em 27/09/2026.
+**Somente empresas possuem conta.** Desenvolvedores aparecem como candidatos obtidos de dados públicos do GitHub: não se cadastram, não possuem senha e não editam perfis no Oásis. Todo cadastro empresarial recebe automaticamente o plano gratuito no backend.
 
-## Estado da entrega
+## Estado atual
 
-A primeira etapa recuperou contratos entre telas e API, autenticação, favoritos, avaliações privadas e instalação SQL não destrutiva.
+A base estrutural e de segurança foi recuperada e a interface foi evoluída para um produto multipágina consistente.
 
-**O projeto completo ainda não está concluído.** Consulte [acompanhamento](docs/ACOMPANHAMENTO.md), [diagnóstico](docs/DIAGNOSTICO.md) e [relatório da etapa 1](docs/RELATORIO-ETAPA-1.md). `index.html` ainda oferece login. Landing pública, comparação, histórico visível, Insights, recuperação por e-mail e mudança de assinatura continuam pendentes.
+Entregas presentes neste repositório:
 
-## Arquitetura
+- landing pública com identidade Oásis, hero, seções, FAQ, ticker e animações leves;
+- login e cadastro exclusivos para empresas;
+- plano gratuito automático no cadastro;
+- dashboard autenticado;
+- busca de candidatos e filtros compatíveis com o GitHub;
+- cards com favorito, seleção para comparação e acesso ao perfil;
+- perfil técnico, repositórios e avaliação privada;
+- favoritos e avaliações internas;
+- comparação de 2 a 3 candidatos sem vencedor automático;
+- histórico recente de pesquisas da empresa;
+- Insights privados derivados de dados reais da própria empresa;
+- página de assinatura que exibe os planos cadastrados e o plano atual;
+- perfil da empresa e configurações;
+- responsividade, menu móvel, toasts, modais e `prefers-reduced-motion`.
 
-- Java 21, Spring Boot 3.3.13, Web, JPA, Security, Validation e JWT.
-- MySQL para aplicação; H2 em testes isolados.
-- HTML/CSS/JavaScript sem framework; GitHub REST consultado pelo backend.
+Ainda permanecem pendentes decisões ou integrações que não devem ser inventadas:
+
+- cobrança real e gateway de pagamento;
+- alteração efetiva de plano;
+- regra definitiva de consumo/reset do limite de comparações;
+- recuperação de senha por canal verificado;
+- migração física de identificadores técnicos históricos (`com.ckgd`, schema `ckgd`, `CKGD_*`, chaves `ckgd_*`);
+- migração de repositório para ID estável do GitHub;
+- validação final em MySQL de produção/homologação.
+
+Consulte `docs/ACOMPANHAMENTO.md`, `docs/MATRIZ-PROMPT.md` e `docs/RELATORIO-ETAPA-2.md`.
+
+## Stack
+
+### Backend
+- Java 21
+- Spring Boot 3.3.13
+- Spring Web
+- Spring Data JPA
+- Spring Security
+- Bean Validation
+- JWT
+- MySQL
+
+### Frontend
+- HTML5
+- CSS3
+- JavaScript sem framework
+
+### Integração
+- GitHub REST API
+
+## Estrutura
 
 ```text
-backend/src/main/       controllers → services → repositories → entidades/MySQL
-backend/src/test/       testes de cadastro, segurança, avaliações e GitHub
-css/ e js/              estilos e lógica compartilhada/por tela
-images/                 assets locais
-database/               schema, rotinas e planos legados
-docs/                   diagnóstico, migrações e acompanhamento
-scripts/                validação e servidor estático de desenvolvimento
-*.html                  telas existentes, caminhos preservados
+backend/                 API Java/Spring Boot
+database/                schema, rotinas e dados iniciais
+docs/                    diagnóstico, migrações e relatórios
+css/                     tokens, base e estilos por página
+js/                      API client, UI compartilhada e scripts por página
+images/                  assets locais
+scripts/                 servidor estático e verificador do frontend
+*.html                   páginas multipágina do frontend
 ```
 
-Nomes técnicos `com.ckgd`, schema `ckgd`, `CKGD_*`, `ckgd.*` e chaves `ckgd_*` foram mantidos para compatibilidade. Marca visível: Oásis. `node_id` armazena ID numérico REST; `githubUserId` é o nome público correto com aliases antigos temporários. URL continua PK de repositório até migração própria.
+A migração para uma pasta `frontend/` continua opcional e não foi feita de forma massiva para evitar quebra de caminhos relativos.
 
-## Executar
+## Fluxo principal
 
-1. Configure Java 21, Maven e MySQL 8.0.16+. Confira `java -version` e `mvn -version`; JAVA_HOME deve apontar ao JDK correto.
-2. Em **banco novo**, execute no MySQL Workbench `database/01_schema.sql`, `02_views_routines.sql` e `03_data_manipulation.sql`, nessa ordem. Alternativamente execute `00_setup_completo.sql`, que contém os mesmos três arquivos.
-3. Para **banco existente**, siga [BANCO-E-MIGRACOES.md](docs/BANCO-E-MIGRACOES.md). CREATE IF NOT EXISTS não migra tabelas antigas.
-4. Configure variáveis no terminal do backend. Exemplo PowerShell:
+```text
+Landing (index.html)
+      ↓
+Login / Cadastro
+      ↓
+Dashboard
+      ├── Buscar candidatos
+      ├── Favoritos
+      ├── Comparar
+      ├── Insights
+      ├── Assinatura
+      ├── Perfil da empresa
+      └── Configurações
+```
+
+## Executar localmente
+
+### 1. Banco e backend
+
+Use Java 21, Maven e MySQL 8.0.16+.
+
+Em banco novo, execute os scripts:
+
+1. `database/01_schema.sql`
+2. `database/02_views_routines.sql`
+3. `database/03_data_manipulation.sql`
+
+Configure as variáveis de ambiente necessárias. Exemplo PowerShell:
 
 ```powershell
 $env:CKGD_DB_USER = 'seu_usuario_mysql'
 $env:CKGD_DB_PASSWORD = 'sua_senha_mysql'
-$env:CKGD_JWT_SECRET = 'substitua-por-segredo-aleatorio-de-pelo-menos-32-bytes'
+$env:CKGD_JWT_SECRET = 'segredo-aleatorio-com-pelo-menos-32-bytes'
+$env:CKGD_GITHUB_TOKEN = 'token-opcional-do-github'
 cd backend
 mvn spring-boot:run
 ```
 
-Substitua o exemplo do segredo por valor aleatório próprio. Não salve credenciais reais nos arquivos. O segredo JWT é obrigatório. A API usa a porta 8080.
+O segredo JWT não deve ser commitado.
 
-5. Em outro terminal, na raiz:
+### 2. Frontend
+
+Na raiz do projeto:
 
 ```powershell
 node scripts/servir-frontend.cjs
 ```
 
-Abra `http://127.0.0.1:8090`. Esse é apenas um servidor **estático local de desenvolvimento**, não substitui o backend Java. Também pode usar Live Server em origem permitida. Não abrir por `file://`.
+Abra `http://127.0.0.1:8090`.
 
-## Configuração
+Também é possível usar **Live Server** no VS Code. A landing (`index.html`) não depende do backend para renderizar; operações autenticadas precisam da API Java em `http://localhost:8080/api`.
 
-| Variável | Finalidade/padrão |
+Se o Live Server usar outra porta/origem, ajuste `CKGD_CORS_ORIGINS`.
+
+## Variáveis principais
+
+| Variável | Finalidade |
 |---|---|
-| CKGD_DB_URL | JDBC; padrão MySQL local, schema ckgd |
-| CKGD_DB_USER | Usuário MySQL; padrão root local |
-| CKGD_DB_PASSWORD | Senha do seu MySQL |
-| CKGD_JWT_SECRET | Obrigatória, pelo menos 32 bytes aleatórios |
-| CKGD_GITHUB_TOKEN | Opcional, leitura pública GitHub, somente backend |
-| CKGD_CORS_ORIGINS | Origens exatas separadas por vírgula, sem curingas |
-| CKGD_FREE_PLAN_NAME | Nome preferencial gratuito; padrão Free |
-| CKGD_DDL_AUTO | Padrão validate, não substituir migrações por update |
+| `CKGD_DB_URL` | JDBC do MySQL |
+| `CKGD_DB_USER` | Usuário do MySQL |
+| `CKGD_DB_PASSWORD` | Senha do MySQL |
+| `CKGD_JWT_SECRET` | Segredo JWT obrigatório |
+| `CKGD_GITHUB_TOKEN` | Token opcional para aumentar limite de leitura pública |
+| `CKGD_CORS_ORIGINS` | Origens permitidas, separadas por vírgula |
+| `CKGD_FREE_PLAN_NAME` | Nome preferencial do plano gratuito |
+| `CKGD_DDL_AUTO` | Estratégia JPA; padrão recomendado `validate` |
 
-Propriedades adicionais: `ckgd.jwt.expiration-ms` (86400000), `ckgd.github.search-cache-seconds` (60), `ckgd.github.profile-cache-minutes` (15), `ckgd.upload.dir` (uploads, relativo ao diretório de execução). A URL JDBC padrão é local; configure TLS e credenciais apropriadas antes de implantação externa.
+Os prefixos `CKGD_*` permanecem temporariamente por compatibilidade técnica. A marca visível é **Oásis**.
 
-`js/api.js` usa `http://localhost:8080/api`. Para outro endereço, defina `window.OASIS_API_BASE_URL` antes de carregar o script e ajuste CORS.
+## API principal
 
-## API
-
-| Método | Rota | Finalidade |
+| Método | Rota | Uso |
 |---|---|---|
-| POST | /api/auth/cadastro | Público; cria empresa no gratuito; ignora idPlano enviado |
-| POST | /api/auth/login | Público; sessão JWT empresarial |
-| POST | /api/auth/redefinir-senha | Indisponível, 503 para payload válido; não altera senha |
-| GET | /api/planos | Público; catálogo legado sem cobrança |
-| GET / PUT | /api/empresas/me | Empresa; ler/editar nome e telefone |
-| PUT | /api/empresas/me/senha | Empresa; exige senha atual |
-| POST | /api/empresas/me/foto | Empresa; multipart arquivo JPEG/PNG, até 5 MB e 16 MP |
-| GET | /api/busca?termo=&linguagem=&localizacao= | Empresa; pesquisa e uso registrado |
-| GET | /api/candidatos/{id} | Empresa; perfil público técnico |
-| GET | /api/favoritos | Favoritos da empresa autenticada |
-| PUT / DELETE | /api/favoritos/{id} | Alterar favorito sem apagar avaliação |
-| GET | /api/avaliacoes | Avaliações da empresa autenticada |
-| GET / PUT | /api/avaliacoes/{id} | Ler/salvar nota e comentário; não altera favorito |
-| POST | /api/suporte | Registra solicitação; não envia e-mail |
+| POST | `/api/auth/cadastro` | Cria empresa e vincula plano gratuito |
+| POST | `/api/auth/login` | Autentica empresa |
+| POST | `/api/auth/redefinir-senha` | Indisponível até existir canal verificado |
+| GET | `/api/empresas/me` | Dados da empresa autenticada |
+| PUT | `/api/empresas/me` | Atualiza dados permitidos |
+| PUT | `/api/empresas/me/senha` | Altera senha |
+| POST | `/api/empresas/me/foto` | Atualiza imagem da empresa |
+| GET | `/api/busca` | Pesquisa candidatos |
+| GET | `/api/busca/historico` | Últimas 30 pesquisas da empresa |
+| GET | `/api/candidatos/{id}` | Perfil técnico |
+| GET | `/api/favoritos` | Favoritos da empresa |
+| PUT/DELETE | `/api/favoritos/{id}` | Altera favorito |
+| GET | `/api/avaliacoes` | Avaliações privadas da empresa |
+| GET/PUT | `/api/avaliacoes/{id}` | Consulta/salva avaliação privada |
+| GET | `/api/planos` | Catálogo atual de planos |
+| POST | `/api/suporte` | Registra solicitação |
 
-Rotas privadas exigem `Authorization: Bearer <token>`. CNPJ vem da sessão. Nota null remove nota; comentário vazio limpa comentário; campos omitidos preservam valores. A rota antiga de favoritos aceita nota/comentário por compatibilidade; a interface usa ações separadas.
+Rotas privadas exigem `Authorization: Bearer <token>`.
 
-## Segurança e limitações
+## Segurança
 
-- BCrypt, segredo JWT externo, CORS explícito, erros sem stack trace para usuário.
-- Dados externos entram por DOM/textContent, sem innerHTML; URLs e avatares são restritos a destinos GitHub esperados.
-- Upload valida conteúdo e regrava PNG; WebP antigo continua legível, novos uploads usam JPEG/PNG.
-- Recuperação por dados públicos desativada; falta token temporário, expiração, uso único e canal verificado.
-- JWT fica em localStorage (legado); estratégia de sessão e revogação após troca de senha ficam pendentes.
-- GitHub possui cache/TTL e erros distintos de resultado vazio. Linguagens/estrelas usam amostra de até 30 repositórios recentes sem forks; não representam todo o histórico. Não inferimos idade/senioridade. Localização é texto livre.
-- Free/Pro/Enterprise, preços e limites são legados, não novas decisões comerciais. Enterprise de preço zero não é selecionado como plano gratuito de entrada.
-- Uso de buscas/avaliações permanece acumulado sem reset inventado. Novo candidato avaliado consome limite; editar não adiciona unidade; favorito não consome avaliação. Comparação e sua contagem estão pendentes.
+- BCrypt para senhas;
+- JWT com segredo externo;
+- CORS com origens explícitas;
+- candidatos não autenticam;
+- avaliações isoladas por CNPJ autenticado;
+- dados externos renderizados com DOM seguro / `textContent`;
+- upload de imagem validado e regravado;
+- respostas de erro não devem expor stack trace ao usuário;
+- recuperação de senha insegura permanece desativada.
 
-## Testes
+## GitHub e métricas
+
+O Oásis utiliza dados públicos e não transforma seguidores, estrelas ou quantidade de repositórios em um score profissional.
+
+- localização permanece texto livre;
+- idade não é inferida;
+- senioridade não é inferida;
+- linguagem principal é calculada a partir da amostra analisada;
+- erros de API e rate limit são diferenciados de resultado vazio;
+- cache/TTL reduzem chamadas repetidas.
+
+## Comparação
+
+A comparação é descritiva. Ela mostra dados lado a lado e nunca seleciona automaticamente um vencedor.
+
+O consumo do `limite_comparacao` ainda não foi implementado porque reset, renovação e regra de consumo são decisões de negócio pendentes.
+
+## Assinatura
+
+O cadastro gratuito é funcional. A página de assinatura exibe o plano atual e os registros existentes em `/api/planos`.
+
+A troca efetiva de plano continua desabilitada enquanto cobrança, gateway e regras comerciais não forem definidas.
+
+## Validação
+
+Frontend:
 
 ```powershell
-mvn -f backend/pom.xml package
 node scripts/verificar-frontend.cjs
 ```
 
-Testes usam H2 e GitHub simulado, sem MySQL real ou token GitHub. Nesta execução, Maven compilou para release 21 e os testes rodaram no JDK 25 disponível. Validar runtime Java 21 e MySQL ainda é necessário. Consulte o relatório para resultados e limites da revisão visual.
+Backend:
 
-Não há `.git` nesta cópia. Não houve commit/publicação. Compare com o repositório original antes de conectar o histórico; não descarte alterações anteriores.
+```powershell
+mvn -f backend/pom.xml test
+```
+
+A workflow `.github/workflows/ci.yml` executa essas duas validações em pushes e pull requests.
+
+## Princípio do produto
+
+> Dados públicos. Decisões humanas.
+
+O Oásis organiza contexto técnico para apoiar recrutadores. A decisão de contratação continua pertencendo às pessoas.

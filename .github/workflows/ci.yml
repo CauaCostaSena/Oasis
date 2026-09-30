@@ -1,0 +1,32 @@
+name: Validar Oásis
+
+on:
+  push:
+    branches: [main, oasis-visual-completo]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar HTML, caminhos e JavaScript
+        run: node scripts/verificar-frontend.cjs
+
+  backend:
+    name: Backend Java 21
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Executar testes
+        run: mvn -B -f backend/pom.xml test
