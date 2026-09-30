@@ -1,5 +1,9 @@
 CkgdAPI.exigirAutenticacaoEmpresa();
 const saveCompany = document.getElementById('salvar-empresa');
+function aplicarLogos(empresa) {
+    CkgdAPI.aplicarLogo(document.getElementById('foto-preview'), empresa);
+    document.querySelectorAll('[data-company-logo]').forEach(el => CkgdAPI.aplicarLogo(el, empresa));
+}
 function aplicarDados(empresa) {
     document.querySelectorAll('[data-company-name]').forEach(el => el.textContent=empresa.nomeEmpresa);
     document.getElementById('nome-empresa').value=empresa.nomeEmpresa;
@@ -7,7 +11,7 @@ function aplicarDados(empresa) {
     document.getElementById('item-email').textContent=empresa.email;
     document.getElementById('item-plano').textContent=empresa.nomePlano || 'Não informado';
     document.getElementById('item-localidade').textContent=[empresa.cidade,empresa.estado,empresa.pais].filter(Boolean).join(', ');
-    CkgdAPI.aplicarLogo(document.getElementById('foto-preview'),empresa); CkgdAPI.aplicarLogo(document.getElementById('company-logo'),empresa);
+    aplicarLogos(empresa);
     localStorage.setItem('ckgd_nome',empresa.nomeEmpresa);
 }
 OasisUI.empresa().then(empresa => { aplicarDados(empresa); saveCompany.disabled=false; }).catch(err => document.getElementById('empresa-erro').textContent=err.message);
@@ -22,7 +26,7 @@ document.getElementById('input-foto').addEventListener('change',async event => {
     const state=document.getElementById('foto-estado');
     if(file.size > 5*1024*1024) { state.textContent='A imagem deve ter no máximo 5 MB.'; input.value=''; return; }
     input.disabled=true; state.textContent='Enviando…';
-    try { const empresa=await CkgdAPI.atualizarFoto(file); CkgdAPI.aplicarLogo(document.getElementById('foto-preview'),empresa); CkgdAPI.aplicarLogo(document.getElementById('company-logo'),empresa); state.textContent='Foto atualizada.'; }
+    try { const empresa=await CkgdAPI.atualizarFoto(file); aplicarLogos(empresa); state.textContent='Foto atualizada.'; }
     catch(err) { state.textContent=err.message; } finally { input.disabled=false; input.value=''; }
 });
 document.getElementById('form-senha').addEventListener('submit',async event => {
