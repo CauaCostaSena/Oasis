@@ -50,11 +50,11 @@ class FluxosEmpresaTest {
 
     @Test void cadastroHttpIgnoraPlanoPagoEAtribuiGratuitoSemFrontendEPermiteLogin() throws Exception {
         int pago = planos.findAll().stream().filter(p -> p.getPrecoPlano().signum() > 0).findFirst().orElseThrow().getIdPlano();
-        var payload = Map.of("cnpj","12345678000199","nomeEmpresa","Empresa de teste","email","TESTE@example.test",
+        var payload = Map.of("cnpj","12345678000195","nomeEmpresa","Empresa de teste","email","TESTE@example.test",
                 "senha","Senha-teste-123","pais","Brasil","estado","Bahia","cidade","Salvador","bairro","Centro","endereco","Rua de teste","idPlano",pago);
         mvc.perform(post("/api/auth/cadastro").contentType("application/json").content(mapper.writeValueAsString(payload)))
                 .andExpect(status().isCreated()).andExpect(jsonPath("$.tipo").value("EMPRESA")).andExpect(jsonPath("$.token").isNotEmpty());
-        Empresa criada = empresas.findById("12345678000199").orElseThrow();
+        Empresa criada = empresas.findById("12345678000195").orElseThrow();
         assertThat(criada.getPlano().getIdPlano()).isEqualTo(free().getIdPlano()).isNotEqualTo(pago);
         assertThat(criada.getPlano().getPrecoPlano()).isZero();
         assertThat(criada.getSenha()).isNotEqualTo("Senha-teste-123");
@@ -66,11 +66,11 @@ class FluxosEmpresaTest {
     }
 
     @Test void favoritoEAvaliacaoSaoIndependentesEPrivadosEntreEmpresas() throws Exception {
-        Empresa a=empresa("11111111000111"), b=empresa("22222222000122"); candidato();
+        Empresa a=empresa("11111111000191"), b=empresa("22222222000191"); candidato();
         mvc.perform(put("/api/favoritos/42").header("Authorization",token(a)).contentType("application/json").content("{\"favorito\":true}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.dataAvaliacao").isEmpty());
         mvc.perform(put("/api/avaliacoes/42").header("Authorization",token(a)).contentType("application/json")
-                .content("{\"nota\":5,\"comentario\":\"Interno\",\"privada\":false,\"cnpj\":\"22222222000122\",\"favorito\":false}"))
+                .content("{\"nota\":5,\"comentario\":\"Interno\",\"privada\":false,\"cnpj\":\"22222222000191\",\"favorito\":false}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.privada").value(true)).andExpect(jsonPath("$.favorito").value(true));
         mvc.perform(get("/api/avaliacoes").header("Authorization",token(b))).andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(0));
         mvc.perform(get("/api/avaliacoes/42").header("Authorization",token(b))).andExpect(status().isNotFound());
@@ -82,7 +82,7 @@ class FluxosEmpresaTest {
     }
 
     @Test void validaEscalaELimiteSemCobrarFavorito() throws Exception {
-        Empresa a=empresa("11111111000111"); Candidato c=candidato();
+        Empresa a=empresa("11111111000191"); Candidato c=candidato();
         a.getPlano().setLimiteAvaliacao(1); planos.saveAndFlush(a.getPlano());
         for(int nota : new int[]{0,6}) {
             mvc.perform(put("/api/avaliacoes/42").header("Authorization",token(a)).contentType("application/json").content("{\"nota\":"+nota+"}"))
@@ -103,32 +103,32 @@ class FluxosEmpresaTest {
     @Test void protegeRotasERecusaFluxosDeCandidatoERecuperacaoInsegura() throws Exception {
         mvc.perform(get("/api/favoritos")).andExpect(status().isUnauthorized());
         mvc.perform(get("/api/empresas/me").header("Authorization","Bearer invalido")).andExpect(status().isUnauthorized());
-        Empresa e=empresa("11111111000111");
+        Empresa e=empresa("11111111000191");
         mvc.perform(post("/api/auth/cadastro-candidato").header("Authorization",token(e)).contentType("application/json").content("{}"))
                 .andExpect(status().isForbidden());
         mvc.perform(get("/api/candidatos/me").header("Authorization",token(e))).andExpect(status().isForbidden());
         mvc.perform(post("/api/auth/redefinir-senha").contentType("application/json")
-                .content("{\"cnpj\":\"11111111000111\",\"email\":\"teste@example.test\",\"novaSenha\":\"Nova-senha-123\"}"))
+                .content("{\"cnpj\":\"11111111000191\",\"email\":\"teste@example.test\",\"novaSenha\":\"Nova-senha-123\"}"))
                 .andExpect(status().isServiceUnavailable());
         assertThat(encoder.matches("Senha-teste-123",empresas.findById(e.getCnpj()).orElseThrow().getSenha())).isTrue();
     }
 
     @Test void rejeitaArquivoFalsoERegravaImagemValida() throws Exception {
-        Empresa e=empresa("11111111000111");
+        Empresa e=empresa("11111111000191");
         var falso=new org.springframework.mock.web.MockMultipartFile("arquivo","foto.png","image/png","<script>alert(1)</script>".getBytes());
         mvc.perform(multipart("/api/empresas/me/foto").file(falso).header("Authorization",token(e))).andExpect(status().isBadRequest());
         var imagem=new java.awt.image.BufferedImage(2,2,java.awt.image.BufferedImage.TYPE_INT_RGB);
         var bytes=new java.io.ByteArrayOutputStream(); javax.imageio.ImageIO.write(imagem,"png",bytes);
         var valido=new org.springframework.mock.web.MockMultipartFile("arquivo","foto.png","image/png",bytes.toByteArray());
         mvc.perform(multipart("/api/empresas/me/foto").file(valido).header("Authorization",token(e)))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.fotoUrl").value("/uploads/empresas/11111111000111.png"));
-        assertThat(javax.imageio.ImageIO.read(new java.io.File("target/test-uploads/empresas/11111111000111.png"))).isNotNull();
+                .andExpect(status().isOk()).andExpect(jsonPath("$.fotoUrl").value("/uploads/empresas/11111111000191.png"));
+        assertThat(javax.imageio.ImageIO.read(new java.io.File("target/test-uploads/empresas/11111111000191.png"))).isNotNull();
     }
 
     @Test void rejeitaOrigemCorsNaoAutorizadaENotaFracionaria() throws Exception {
         mvc.perform(options("/api/auth/login").header("Origin","https://nao-autorizado.example").header("Access-Control-Request-Method","POST"))
                 .andExpect(status().isForbidden());
-        Empresa e=empresa("11111111000111"); candidato();
+        Empresa e=empresa("11111111000191"); candidato();
         mvc.perform(put("/api/avaliacoes/42").header("Authorization",token(e)).contentType("application/json").content("{\"nota\":1.5}"))
                 .andExpect(status().isBadRequest());
     }
