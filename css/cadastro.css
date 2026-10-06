@@ -1,2 +1,15 @@
 /* O formulário acompanha os campos empresariais existentes no backend. */
-.auth-card.register-card{max-width:660px}.register-card .auth-description{margin-bottom:20px}.register-card .notice{font-size:12px;color:#becce3;background:#326bff10;border-color:#326bff30}.register-card .grid-2{gap:0 18px}.form-section-title{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#91a7c8;padding-top:10px;margin:12px 0 18px}.register-card .field{margin-bottom:15px}.register-card .field input{padding:11px 13px}.register-card .password-wrap input{padding-right:76px}
+.auth-card.register-card{max-width:720px}
+.register-card .auth-description{margin-bottom:20px}
+.register-card .notice{font-size:12px;color:#becce3;background:#326bff10;border-color:#326bff30}
+.register-card .grid-2{gap:0 18px}
+.form-section-title{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#91a7c8;padding-top:10px;margin:12px 0 18px}
+.register-card .field{margin-bottom:15px}
+.register-card .field input,.register-card .field select{width:100%;padding:11px 13px;border:1px solid rgba(148,163,184,.24);border-radius:10px;background:#0f1722;color:#f8fafc;font:inherit;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.register-card .field select{appearance:auto;cursor:pointer}
+.register-card .field select:disabled{cursor:not-allowed;opacity:.58}
+.register-card .field input:focus,.register-card .field select:focus{border-color:#326bff;box-shadow:0 0 0 3px rgba(50,107,255,.16)}
+.register-card .field input:user-invalid,.register-card .field select:user-invalid{border-color:#f87171}
+.register-card .password-wrap input{padding-right:76px}
+.field-help{display:block;margin-top:6px;color:#8fa3bf;font-size:11px;line-height:1.45}
+@media(max-width:680px){.register-card .grid-2{grid-template-columns:1fr}.auth-card.register-card{max-width:100%}}

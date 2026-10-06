@@ -1,1 +1,95 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Oásis — recrutamento técnico com dados públicos do GitHub."><title>Criar conta · Oásis</title><link rel="icon" href="images/favicon.svg"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/login.css"><link rel="stylesheet" href="css/cadastro.css"></head><body class="dark-theme"><nav class="auth-nav"><a class="brand" href="index.html" aria-label="Oásis, início"><span aria-hidden="true">◉</span> Oásis</a><a href="home.html">Área da empresa</a></nav><main class="auth-main"><section class="auth-card register-card"><h1>Encontre seu próximo talento.</h1><p class="auth-description">Crie a conta da sua empresa no Oásis.</p><nav class="auth-tabs" aria-label="Acesso"><a href="login.html">Entrar</a><a class="active" aria-current="page" href="cadastro.html">Criar conta</a></nav><p class="notice">Seu plano gratuito é ativado automaticamente ao concluir o cadastro.</p><form id="form-cadastro"><div class="grid-2"><div class="field"><label for="input-nome-empresa">Nome da empresa</label><input id="input-nome-empresa" name="nome-empresa" type="text" maxlength="120" autocomplete="organization" required></div><div class="field"><label for="input-cnpj">CNPJ (14 dígitos)</label><input id="input-cnpj" name="cnpj" type="text" inputmode="numeric" maxlength="18" required></div><div class="field"><label for="input-email">E-mail corporativo</label><input id="input-email" name="email" type="email" maxlength="150" autocomplete="username" required></div><div class="field"><label for="input-senha">Senha (8 a 72 caracteres)</label><input id="input-senha" name="senha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required></div><div class="field"><label for="input-pais">País</label><input id="input-pais" name="pais" type="text" maxlength="60" required></div><div class="field"><label for="input-estado">Estado</label><input id="input-estado" name="estado" type="text" maxlength="60" required></div><div class="field"><label for="input-cidade">Cidade</label><input id="input-cidade" name="cidade" type="text" maxlength="60" required></div><div class="field"><label for="input-bairro">Bairro</label><input id="input-bairro" name="bairro" type="text" maxlength="60" required></div></div><div class="field"><label for="input-endereco">Endereço</label><input id="input-endereco" name="endereco" type="text" maxlength="150" required></div><p id="form-error" class="form-error" role="alert"></p><button id="btn-finalizar-cadastro" type="submit" class="btn btn-primary btn-block">Criar conta gratuita</button></form></section></main><footer class="auth-footer">Oásis · Dados públicos. Decisões humanas.</footer><script src="js/api.js"></script><script src="js/ui.js"></script><script src="js/suporte.js"></script><script src="js/cadastro.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Crie a conta da sua empresa no Oásis.">
+  <title>Criar conta · Oásis</title>
+  <link rel="icon" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/cadastro.css">
+</head>
+<body class="dark-theme">
+  <nav class="auth-nav">
+    <a class="brand" href="index.html" aria-label="Oásis, página inicial"><span aria-hidden="true">◉</span> Oásis</a>
+    <a href="index.html">Voltar ao início</a>
+  </nav>
+  <main class="auth-main">
+    <section class="auth-card register-card">
+      <p class="eyebrow">Conta empresarial</p>
+      <h1>Encontre seu próximo talento.</h1>
+      <p class="auth-description">Crie a conta da sua empresa no Oásis. Desenvolvedores não precisam se cadastrar.</p>
+      <nav class="auth-tabs" aria-label="Acesso">
+        <a href="login.html">Entrar</a>
+        <a class="active" aria-current="page" href="cadastro.html">Criar conta</a>
+      </nav>
+      <p class="notice">Seu plano gratuito é vinculado automaticamente pelo servidor ao concluir o cadastro.</p>
+      <form id="form-cadastro" novalidate>
+        <div class="grid-2">
+          <div class="field">
+            <label for="input-nome-empresa">Nome da empresa</label>
+            <input id="input-nome-empresa" name="nome-empresa" type="text" minlength="2" maxlength="120" autocomplete="organization" required>
+          </div>
+          <div class="field">
+            <label for="input-cnpj">CNPJ</label>
+            <input id="input-cnpj" name="cnpj" type="text" inputmode="numeric" autocomplete="off" maxlength="18" placeholder="00.000.000/0000-00" aria-describedby="cnpj-ajuda" required>
+            <small id="cnpj-ajuda" class="field-help">Informe um CNPJ válido. A verificação considera os 14 dígitos e os dígitos verificadores.</small>
+          </div>
+          <div class="field">
+            <label for="input-email">E-mail corporativo</label>
+            <input id="input-email" name="email" type="email" maxlength="150" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="input-senha">Senha</label>
+            <div class="password-wrap">
+              <input id="input-senha" name="senha" type="password" minlength="8" maxlength="72" autocomplete="new-password" aria-describedby="senha-ajuda" required>
+              <button class="password-toggle" type="button" data-password-toggle="input-senha" aria-pressed="false">Mostrar</button>
+            </div>
+            <small id="senha-ajuda" class="field-help">Use de 8 a 72 caracteres.</small>
+          </div>
+          <div class="field">
+            <label for="input-confirmar-senha">Confirmar senha</label>
+            <div class="password-wrap">
+              <input id="input-confirmar-senha" name="confirmar-senha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+              <button class="password-toggle" type="button" data-password-toggle="input-confirmar-senha" aria-pressed="false">Mostrar</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="input-pais">País</label>
+            <select id="input-pais" name="pais" autocomplete="country" required>
+              <option value="" selected disabled>Selecione o país</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="input-estado">Estado / Província / Região</label>
+            <select id="input-estado" name="estado" autocomplete="address-level1" disabled required>
+              <option value="">Selecione primeiro o país</option>
+            </select>
+            <input id="input-estado-texto" name="estado-texto" type="text" minlength="2" maxlength="60" autocomplete="address-level1" placeholder="Digite a região administrativa" hidden disabled>
+          </div>
+          <div class="field">
+            <label for="input-cidade">Cidade</label>
+            <input id="input-cidade" name="cidade" type="text" minlength="2" maxlength="60" autocomplete="address-level2" required>
+          </div>
+          <div class="field">
+            <label for="input-bairro">Bairro / Distrito</label>
+            <input id="input-bairro" name="bairro" type="text" minlength="2" maxlength="60" autocomplete="address-level3" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="input-endereco">Endereço</label>
+          <input id="input-endereco" name="endereco" type="text" minlength="5" maxlength="150" autocomplete="street-address" required>
+        </div>
+        <p id="form-error" class="form-error" role="alert"></p>
+        <button id="btn-finalizar-cadastro" type="submit" class="btn btn-primary btn-block">Criar conta gratuita</button>
+      </form>
+    </section>
+  </main>
+  <footer class="auth-footer">Oásis · Dados públicos. Decisões humanas.</footer>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/suporte.js"></script>
+  <script src="js/cadastro.js"></script>
+</body>
+</html>

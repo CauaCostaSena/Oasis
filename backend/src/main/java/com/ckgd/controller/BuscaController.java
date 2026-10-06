@@ -1,5 +1,6 @@
 package com.ckgd.controller;
 
+import com.ckgd.dto.BuscaHistoricoResponse;
 import com.ckgd.dto.CandidatoResponse;
 import com.ckgd.service.BuscaService;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,13 @@ public class BuscaController {
             Authentication authentication) {
 
         String cnpj = (String) authentication.getPrincipal();
-
         List<CandidatoResponse> resultado = buscaService.executarBusca(cnpj, termo, linguagem, localizacao);
-
         return ResponseEntity.ok(resultado);
+    }
+
+    @GetMapping("/historico")
+    public ResponseEntity<List<BuscaHistoricoResponse>> historico(Authentication authentication) {
+        String cnpj = (String) authentication.getPrincipal();
+        return ResponseEntity.ok(buscaService.listarHistorico(cnpj));
     }
 }

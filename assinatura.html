@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Planos e assinatura da empresa no Oásis.">
+  <title>Assinatura · Oásis</title>
+  <link rel="icon" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/app-extra.css">
+  <link rel="stylesheet" href="css/assinatura.css">
+</head>
+<body class="app-shell" data-page="assinatura">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <button id="sidebar-shade" class="sidebar-shade" aria-label="Fechar menu" hidden></button>
+  <aside class="sidebar" id="sidebar" aria-label="Navegação"></aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <button id="menu-toggle" class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button>
+      <div class="breadcrumb">Oásis <span>/</span> <strong>Assinatura</strong></div>
+      <div class="topbar-actions"><a class="topbar-profile" href="empresa.html"><span data-company-name>Minha empresa</span><div class="avatar" data-company-logo></div></a></div>
+    </header>
+
+    <main class="main-content" id="conteudo">
+      <div class="subscription-heading">
+        <p class="eyebrow">Planos do Oásis</p>
+        <h1>Assinatura</h1>
+        <p>Consulte o plano atual e os planos cadastrados no sistema. Valores e limites exibidos são os dados existentes no backend, não uma nova definição comercial.</p>
+      </div>
+
+      <div id="plans-loading" class="status-panel" role="status"><div class="oasis-loader" aria-hidden="true"><span></span><span></span><span></span><span></span></div><h2>Carregando planos…</h2></div>
+      <p id="plans-error" class="form-error" role="alert"></p>
+      <div id="plans-grid" class="plans-grid" hidden></div>
+
+      <div class="subscription-note">
+        <strong>Alteração de plano ainda não ativada</strong>
+        <p>O catálogo pode ser consultado, mas a mudança de assinatura continua bloqueada até a equipe definir cobrança, gateway e regras comerciais. O cadastro gratuito já funciona automaticamente no backend.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/suporte.js"></script>
+  <script src="js/assinatura.js"></script>
+</body>
+</html>

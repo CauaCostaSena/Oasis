@@ -1,19 +1,19 @@
 # Cobertura do prompt anexado
 
-Esta matriz evita confundir entregas parciais com conclusão de todos os 97 itens. O diagnóstico descreve o estado recebido; o relatório descreve as mudanças efetivas.
+Matriz atualizada após a evolução visual e funcional iniciada em 30/09/2026.
 
-| Itens do prompt | Situação ao fim da etapa 1 |
+| Itens do prompt | Situação atual |
 |---|---|
-| 1–6: escopo, empresa/candidato, gratuito, stack, auditoria | Regras mantidas; cadastro gratuito testado por HTTP; stack preservada; git status indisponível por ausência de .git; backup feito. |
-| 7–10: limpeza, organização, conta candidato, marca | ZIPs arquivados fora da árvore ativa; conta candidato removida; marca visível Oásis; caminhos e identificadores técnicos preservados. |
-| 11–17: GitHub, dados, IDs, linguagens, filtros, erros | Melhorias de cache/erros herdadas e testadas parcialmente; frontend mostra amostra e texto livre. Migração de IDs, paginação e consulta ao vivo pendentes. |
-| 18–21: XSS, JWT, CORS, exceções | innerHTML externo eliminado; JWT/CORS herdados mantidos; validações, conteúdo de upload e testes adicionados. Revogação/sessão e endurecimento de produção pendentes. |
-| 22–25: favoritos, avaliações, planos, limites | Favoritos separados; avaliações privadas e nota 1–5; limite existente aplicado. Catálogo legado preservado. Comparação, renovação e regras comerciais pendentes. |
-| 26–28: banco, rotinas, recuperação | SQL de instalação unificado sem DROP DATABASE; DECIMAL mantido; rotinas classificadas; recuperação insegura desativada. Migração real e token por canal verificado pendentes. |
-| 29–30: testes e README | 11 testes passaram; README refeito com configuração, API e limites de validação. |
-| 31–46: referências, design system, landing, auth | Referências multimídia não presentes. Tokens/CSS existentes reaproveitados, auth corrigida. Landing, hero, faixa, scroll reveal e direção visual final pendentes. |
-| 47–59: app, sidebar, busca, filtros, loaders | Shell e menu móvel conectados; cards, filtros reais e estados de requisição corrigidos. Drawer de filtros, loaders SVG de referência e skeletons ativos pendentes. |
-| 60–64: perfil, repos, favoritos, comparação, Insights | Perfil técnico e avaliações corrigidos, links de repositórios seguros, favorito removível. Comparação/Insights ainda ausentes. |
-| 65–69: assinatura e configurações | Configurações e plano atual reais; alteração de plano explicitamente indisponível. Sem popularidade, toggle de periodicidade ou cobrança fictícios. Página dedicada pendente. |
-| 70–85: responsividade, foco, feedback, modais, performance, organização | Toasts/formulários e modal nativo conectados; reduced-motion existente preservado; alguns breakpoints revisados. Revisão visual completa e refinamento de performance/CSS pendentes. Nenhum dado comercial fictício inserido. |
-| 86–97: fases, decisões, validação e relatório | Entrega fatiada, decisão de nota obtida, diagnóstico/plano/relatório/backlog salvos. MySQL, API GitHub ao vivo, referências e demais telas precisam continuar nas próximas etapas. |
+| 1–6: escopo, empresa/candidato, gratuito, stack, auditoria | Implementado e preservado. Somente empresas autenticam; cadastro gratuito ocorre no backend; stack Java + HTML/CSS/JS mantida. |
+| 7–10: limpeza, organização, conta candidato, marca | Conta de candidato removida; marca visível Oásis; artefatos históricos não fazem parte da árvore ativa. Identificadores técnicos CKGD continuam por compatibilidade. |
+| 11–17: GitHub, IDs, linguagens, filtros, erros | Tratamento de erros/cache já existente preservado; linguagem por amostra; localização livre; sem inferência de idade/senioridade. Migração física de IDs ainda pendente. |
+| 18–21: XSS, JWT, CORS, exceções | DOM seguro, segredo externo, CORS explícito e erros padronizados preservados. Estratégia de revogação de JWT continua futura. |
+| 22–25: favoritos, avaliações, planos, limites | Favoritos separados; avaliações privadas; nota 1–5 mantida conforme decisão registrada no projeto; limites de busca/avaliação existentes. Limite de comparação não é consumido porque a regra permanece pendente. |
+| 26–28: banco, rotinas, recuperação | DECIMAL mantido; rotinas previstas presentes; recuperação insegura desativada. Token de recuperação por canal verificado ainda pendente. |
+| 29–30: testes e README | Testes existentes preservados; README atualizado; CI adicionado para Maven e verificação do frontend. |
+| 31–46: referências, design system, landing, auth | Landing pública, hero, ticker, scroll reveal, FAQ, dark auth, tokens e identidade Oásis implementados sem copiar infraestrutura Webflow. |
+| 47–59: app, sidebar, busca, filtros, loaders | Shell autenticado completo, sidebar, dashboard, busca, filtros mobile, skeletons e loader de filtro implementados. Loader global reutilizável disponível. |
+| 60–64: perfil, repos, favoritos, comparação, Insights | Perfil/repositórios/favoritos mantidos; comparação funcional de até 3 perfis e Insights privados com dados reais implementados. |
+| 65–69: assinatura e configurações | Página dedicada de assinatura consulta backend e destaca plano atual; alteração permanece explicitamente indisponível até regras comerciais. Perfil da empresa e configurações conectados. |
+| 70–85: responsividade, foco, feedback, modais, performance | Breakpoints, drawer, foco, toast, modal, reduced-motion, transições e componentes compartilhados aplicados. Validação visual final em hardware real segue pendente. |
+| 86–97: fases, decisões, validação e relatório | Trabalho fatiado, relatório de etapa adicionado e backlog explícito. CI faz checagens automatizadas; MySQL/GitHub ao vivo e decisões comerciais seguem pendentes. |

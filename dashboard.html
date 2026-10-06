@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Visão geral da empresa no Oásis.">
+  <title>Visão geral · Oásis</title>
+  <link rel="icon" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/app-extra.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="app-shell" data-page="dashboard">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <button id="sidebar-shade" class="sidebar-shade" aria-label="Fechar menu" hidden></button>
+  <aside class="sidebar" id="sidebar" aria-label="Navegação"></aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <button id="menu-toggle" class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">Menu</button>
+      <div class="breadcrumb">Oásis <span>/</span> <strong>Visão geral</strong></div>
+      <div class="topbar-actions"><a class="topbar-profile" href="empresa.html"><span>Perfil da empresa</span><div class="avatar" data-company-logo></div></a></div>
+    </header>
+
+    <main class="main-content" id="conteudo">
+      <div class="dashboard-hero">
+        <div>
+          <p class="eyebrow">Área da empresa</p>
+          <h1>Olá, <span data-company-name>empresa</span>.</h1>
+          <p>Uma visão rápida da atividade da sua equipe no Oásis.</p>
+        </div>
+        <a class="btn btn-primary" href="home.html">Buscar candidatos →</a>
+      </div>
+
+      <section class="metric-grid" aria-label="Resumo de atividade">
+        <article class="metric-card"><span>Favoritos</span><strong id="metric-favoritos">—</strong><small>Candidatos salvos</small></article>
+        <article class="metric-card"><span>Avaliações</span><strong id="metric-avaliacoes">—</strong><small>Avaliações privadas</small></article>
+        <article class="metric-card"><span>Buscas recentes</span><strong id="metric-buscas">—</strong><small>Últimos registros disponíveis</small></article>
+        <article class="metric-card"><span>Plano atual</span><strong class="plan-metric" id="metric-plano">—</strong><small><a class="text-link" href="assinatura.html">Ver assinatura →</a></small></article>
+      </section>
+
+      <div class="page-grid">
+        <section class="panel-card">
+          <div class="panel-heading">
+            <div><h2>Pesquisas recentes</h2><p>Histórico da sua empresa, sem misturar dados de outras contas.</p></div>
+            <a class="text-link" href="insights.html">Ver insights →</a>
+          </div>
+          <div id="historico-loading" class="dashboard-loading" role="status">Carregando histórico…</div>
+          <div id="historico-empty" class="dashboard-empty" hidden>
+            <p>Sua empresa ainda não possui pesquisas registradas.</p>
+            <a class="btn btn-secondary btn-small" href="home.html">Fazer primeira busca</a>
+          </div>
+          <div class="table-wrap" id="historico-wrap" hidden>
+            <table class="data-table">
+              <thead><tr><th>Pesquisa</th><th>Filtros</th><th>Data</th></tr></thead>
+              <tbody id="historico-body"></tbody>
+            </table>
+          </div>
+          <p id="historico-error" class="form-error" role="alert"></p>
+        </section>
+
+        <aside class="panel-card">
+          <h2>Ações rápidas</h2>
+          <p>Acesse os principais fluxos do Oásis.</p>
+          <div class="action-grid">
+            <a class="action-card" href="home.html"><strong>Buscar candidatos</strong><span>→</span></a>
+            <a class="action-card" href="favoritos.html"><strong>Favoritos</strong><span>→</span></a>
+            <a class="action-card" href="comparacao.html"><strong>Comparar</strong><span>→</span></a>
+            <a class="action-card" href="insights.html"><strong>Insights</strong><span>→</span></a>
+          </div>
+          <div class="dashboard-principle"><strong>Dados públicos. Decisões humanas.</strong><p>O Oásis organiza informações técnicas e não determina automaticamente qual candidato é melhor.</p></div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/suporte.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
