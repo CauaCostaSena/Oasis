@@ -61,7 +61,6 @@ Consulte `docs/ACOMPANHAMENTO.md`, `docs/MATRIZ-PROMPT.md` e `docs/RELATORIO-ETA
 
 ```text
 backend/                 API Java/Spring Boot
-database/                schema, rotinas e dados iniciais
 docs/                    diagnóstico, migrações e relatórios
 css/                     tokens, base e estilos por página
 js/                      API client, UI compartilhada e scripts por página
@@ -91,17 +90,13 @@ Dashboard
 
 ## Executar localmente
 
-### 1. Banco e backend
+### 1. Banco externo e backend
 
 Use Java 21, Maven e MySQL 8.0.16+.
 
-Em banco novo, execute os scripts:
+Os scripts SQL não ficam mais dentro deste repositório. O banco deve ser criado/importado manualmente no MySQL e depois conectado ao backend pelas variáveis de ambiente.
 
-1. `database/01_schema.sql`
-2. `database/02_views_routines.sql`
-3. `database/03_data_manipulation.sql`
-
-Configure as variáveis de ambiente necessárias. Exemplo PowerShell:
+O schema esperado atualmente é `ckgd`. Depois de importar o banco externo, configure as variáveis necessárias. Exemplo PowerShell:
 
 ```powershell
 $env:CKGD_DB_USER = 'seu_usuario_mysql'
